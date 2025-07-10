@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Intermediate HTML/CSS/JS Project</title>
+  <style>
+    /* ========== GLOBAL STYLES ========== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    /* ========== LAYOUT ========== */
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
+    }
+
+    header, footer {
+      background: #333;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    nav {
+      background: #555;
+      padding: 10px;
+      color: white;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    main {
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    /* ========== CONTACT FORM ========== */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    input, textarea {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #28a745;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #form-message {
+      margin-top: 10px;
+      color: red;
+    }
+
+    /* ========== TO-DO LIST ========== */
+    #todo-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    #todo-container ul {
+      list-style: none;
+    }
+
+    .todo-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .todo-item button {
+      background: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>My Web Project</h1>
+  </header>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#">Contact</a>
+    <a href="#">Tasks</a>
+  </nav>
+
+  <div class="container">
+    <main>
+      <section id="contact-section">
+        <h2>Contact Form</h2>
+        <form id="contactForm">
+          <input type="text" id="name" placeholder="Your Name" required />
+          <input type="email" id="email" placeholder="Your Email" required />
+          <textarea id="message" placeholder="Your Message" required></textarea>
+          <button type="submit">Submit</button>
+          <div id="form-message"></div>
+        </form>
+      </section>
+
+      <section id="todo-container">
+        <h2>To-Do List</h2>
+        <input type="text" id="todo-input" placeholder="Enter a task" />
+        <button onclick="addTask()">Add Task</button>
+        <ul id="todo-list"></ul>
+      </section>
+    </main>
+
+    <aside>
+      <h2>Side Content</h2>
+      <p>This is a sidebar area using CSS Grid. You can put links, news, or widgets here.</p>
+    </aside>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Your Name</p>
+  </footer>
+
+  <script>
+    // Form Validation
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const messageBox = document.getElementById("form-message");
+
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+      if (!name || !email || !message) {
+        messageBox.textContent = "Please fill in all fields.";
+      } else if (!emailPattern.test(email)) {
+        messageBox.textContent = "Please enter a valid email.";
+      } else {
+        messageBox.style.color = "green";
+        messageBox.textContent = "Form submitted successfully!";
+        // Optionally clear form
+        this.reset();
+      }
+    });
+
+    // To-Do List
+    function addTask() {
+      const input = document.getElementById("todo-input");
+      const taskText = input.value.trim();
+
+      if (taskText === "") return;
+
+      const li = document.createElement("li");
+      li.className = "todo-item";
+      li.innerHTML = `${taskText} <button onclick="removeTask(this)">Delete</button>`;
+      document.getElementById("todo-list").appendChild(li);
+
+      input.value = "";
+    }
+
+    function removeTask(button) {
+      button.parentElement.remove();
+    }
+  </script>
+</body>
+</html>
